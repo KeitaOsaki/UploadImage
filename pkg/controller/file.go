@@ -6,11 +6,10 @@ import (
 	"file-server/pkg/view"
 	"fmt"
 	"github.com/gin-gonic/gin"
+	"github.com/google/uuid"
 	"log"
 	"net/http"
 	"os"
-	"time"
-	"github.com/google/uuid"
 )
 
 
@@ -63,7 +62,7 @@ func Upload()gin.HandlerFunc{
 
 			data, _ := base64.StdEncoding.DecodeString(images.Image) //[]byte
 			// 画像ファイルを作成。
-			fileName := fmt.Sprintf("./uploadimages/%d%s.jpg", time.Now().UnixNano(), uuID)
+			fileName := fmt.Sprintf("./uploadimages/%s.jpg", uuID)
 			file, err := os.Create(fileName)
 			if err != nil {
 				log.Println("[ERROR] Faild Bind JSON　\n ",err)
@@ -89,11 +88,11 @@ func Upload()gin.HandlerFunc{
 
 			file.Write(data)
 
+			urlName := fmt.Sprintf("/%s.jpg", uuID)
 
-			urls = append(urls,fileName)
+			urls = append(urls,urlName)
 
 		}
-
 
 
 
