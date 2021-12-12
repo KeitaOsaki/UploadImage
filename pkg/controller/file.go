@@ -19,7 +19,7 @@ func Upload()gin.HandlerFunc{
 	return func(c *gin.Context) {
 /*
 		var maxSize int64
-		maxSize =
+		maxSize =　
 
  */
 		var urls []string
@@ -47,7 +47,7 @@ func Upload()gin.HandlerFunc{
 				log.Println("uuid generate is failed")
 			}
 
-			// 画像格納用のデイレクトりがない場合ディレクトリを作成
+			// 画像格納用のデイレクトリがない場合ディレクトリを作成
 			err = os.MkdirAll("./uploadimages", os.ModePerm)
 			if err != nil {
 				log.Println("[ERROR] Faild Bind JSON　\n ",err)
