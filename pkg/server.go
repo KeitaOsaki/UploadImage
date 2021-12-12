@@ -19,6 +19,6 @@ func init() {
 	Server.Use(cors.Default())
 
 	Server.Use(static.Serve("/", static.LocalFile("./uploadimages", true)))
-	Server.POST("/upload", controller.Upload())
-
+	Server.POST("/upload", controller.UploadBase64Image())
+	Server.POST("/upload/file", controller.UploadImage())
 }

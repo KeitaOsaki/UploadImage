@@ -14,7 +14,7 @@ import (
 
 
 
-func Upload()gin.HandlerFunc{
+func UploadBase64Image()gin.HandlerFunc{
 	return func(c *gin.Context) {
 /*
 		var maxSize int64
@@ -100,3 +100,46 @@ func Upload()gin.HandlerFunc{
 	}
 }
 
+
+
+func UploadImage()gin.HandlerFunc {
+	return func(c *gin.Context) {
+		var urls []string
+		form, _ := c.MultipartForm()
+		files := form.File["file"]
+
+
+		for _, file := range files {
+
+			uuID, err := uuid.NewRandom()
+			if err != nil {
+				log.Println("uuid generate is failed")
+			}
+
+			fileName := fmt.Sprintf("images/%s%s",file.Filename,uuID)
+
+			err = c.SaveUploadedFile(file, fileName)
+			if err != nil {
+				log.Println("[ERROR] Faild Bind JSON　\n ", err)
+				c.JSON(http.StatusBadRequest, "Request is error")
+				view.ReturnErrorResponse(
+					c,
+					http.StatusBadRequest,
+					"Bad Request",
+					"Request is error",
+				)
+				return
+			}
+
+
+			urlName := fmt.Sprintf("/%s%s",file.Filename, uuID)
+			urls = append(urls,urlName)
+			}
+
+
+
+
+		c.JSON(http.StatusOK, view.UploadResponse(urls))
+	}
+
+}
