@@ -1,6 +1,5 @@
 package view
 
-
 type ImagesUrlResponse struct {
 	Urls []string `json:"urls"`
 }

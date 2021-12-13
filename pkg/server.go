@@ -2,9 +2,9 @@ package pkg
 
 import (
 	"file-server/pkg/controller"
-	"github.com/gin-gonic/gin"
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/contrib/static"
+	"github.com/gin-gonic/gin"
 )
 
 var (

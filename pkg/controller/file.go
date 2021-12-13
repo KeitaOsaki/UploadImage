@@ -12,21 +12,19 @@ import (
 	"os"
 )
 
-
-
-func UploadBase64Image()gin.HandlerFunc{
+func UploadBase64Image() gin.HandlerFunc {
 	return func(c *gin.Context) {
-/*
-		var maxSize int64
-		maxSize =　
+		/*
+			var maxSize int64
+			maxSize =
 
- */
+		*/
 		var urls []string
 
 		var request model.UploadRequest
-		err:=c.ShouldBindJSON(&request)
+		err := c.ShouldBindJSON(&request)
 		if err != nil {
-			log.Println("[ERROR] Faild Bind JSON　\n ",err)
+			log.Println("[ERROR] Faild Bind JSON　\n ", err)
 			c.JSON(http.StatusBadRequest, "Request is error")
 			view.ReturnErrorResponse(
 				c,
@@ -37,9 +35,7 @@ func UploadBase64Image()gin.HandlerFunc{
 			return
 		}
 
-
 		for _, images := range request.Images {
-
 
 			uuID, err := uuid.NewRandom()
 			if err != nil {
@@ -49,7 +45,7 @@ func UploadBase64Image()gin.HandlerFunc{
 			// 画像格納用のデイレクトリがない場合ディレクトリを作成
 			err = os.MkdirAll("./uploadimages", os.ModePerm)
 			if err != nil {
-				log.Println("[ERROR] Faild Bind JSON　\n ",err)
+				log.Println("[ERROR] Faild Bind JSON　\n ", err)
 				c.JSON(http.StatusInternalServerError, "InternalServerError")
 				view.ReturnErrorResponse(
 					c,
@@ -65,7 +61,7 @@ func UploadBase64Image()gin.HandlerFunc{
 			fileName := fmt.Sprintf("./uploadimages/%s.jpg", uuID)
 			file, err := os.Create(fileName)
 			if err != nil {
-				log.Println("[ERROR] Faild Bind JSON　\n ",err)
+				log.Println("[ERROR] Faild Bind JSON　\n ", err)
 				c.JSON(http.StatusInternalServerError, "Request is error")
 				view.ReturnErrorResponse(
 					c,
@@ -76,13 +72,13 @@ func UploadBase64Image()gin.HandlerFunc{
 				return
 
 			}
-/*
-			fileInter,_ := file.Stat()
-			fileSeze := fileInter.Size()
+			/*
+				fileInter,_ := file.Stat()
+				fileSeze := fileInter.Size()
 
 
- */
-	//どこかにファイルサイズ制限処理書きたい
+			*/
+			//どこかにファイルサイズ制限処理書きたい
 
 			defer file.Close()
 
@@ -90,24 +86,19 @@ func UploadBase64Image()gin.HandlerFunc{
 
 			urlName := fmt.Sprintf("/%s.jpg", uuID)
 
-			urls = append(urls,urlName)
+			urls = append(urls, urlName)
 
 		}
-
-
 
 		c.JSON(http.StatusOK, view.UploadResponse(urls))
 	}
 }
 
-
-
-func UploadImage()gin.HandlerFunc {
+func UploadImage() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		var urls []string
 		form, _ := c.MultipartForm()
 		files := form.File["file"]
-
 
 		for _, file := range files {
 
@@ -116,7 +107,7 @@ func UploadImage()gin.HandlerFunc {
 				log.Println("uuid generate is failed")
 			}
 
-			fileName := fmt.Sprintf("images/%s%s",file.Filename,uuID)
+			fileName := fmt.Sprintf("images/%s%s", file.Filename, uuID)
 
 			err = c.SaveUploadedFile(file, fileName)
 			if err != nil {
@@ -131,13 +122,9 @@ func UploadImage()gin.HandlerFunc {
 				return
 			}
 
-
-			urlName := fmt.Sprintf("/%s%s",file.Filename, uuID)
-			urls = append(urls,urlName)
-			}
-
-
-
+			urlName := fmt.Sprintf("/%s%s", file.Filename, uuID)
+			urls = append(urls, urlName)
+		}
 
 		c.JSON(http.StatusOK, view.UploadResponse(urls))
 	}
