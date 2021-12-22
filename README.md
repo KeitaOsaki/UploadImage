@@ -2,6 +2,6 @@
 
 |  メソッド |  URL  |
 | ---- | ---- |
-|  POST  | /upload   |
+|  　POST  | /upload   |
 |  　POST  |  /upload/file  |
 
